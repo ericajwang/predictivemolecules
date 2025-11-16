@@ -1,0 +1,53 @@
+model:
+  type: "gnn"
+  input_dim: 44
+  hidden_dim: 128
+  num_layers: 3
+  output_dim: 1
+  conv_type: "GAT"  # GCN, GAT, GIN
+  num_heads: 4
+  dropout: 0.2
+  pooling: "mean"  # mean, max, sum, attention
+  use_edge_features: true
+  edge_dim: 10
+
+data:
+  data_path: "data/dataset.csv"
+  smiles_column: "SMILES"
+  target_column: "binding_affinity"
+  mode: "graph"
+  batch_size: 32
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  shuffle: true
+  num_workers: 0
+
+training:
+  epochs: 100
+  device: "cuda"  
+  save_dir: "checkpoints/gnn"
+  log_dir: "logs/gnn"
+  save_best: true
+  patience: 10
+  min_delta: 0.001
+
+optimizer:
+  type: "adam"
+  lr: 0.001
+  weight_decay: 1e-5
+
+scheduler:
+  type: "reduce_on_plateau"
+  mode: "min"
+  factor: 0.5
+  patience: 5
+
+loss:
+  type: "mse"  # mse, mae, huber, combined
+
+evaluation:
+  metrics: ["rmse", "mae", "r2", "pearson_correlation"]
+  save_predictions: true
+  plot_results: true
+

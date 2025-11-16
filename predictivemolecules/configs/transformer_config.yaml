@@ -1,0 +1,49 @@
+model:
+  type: "transformer"
+  input_dim: 2048
+  d_model: 256
+  num_heads: 8
+  num_layers: 4
+  d_ff: 1024
+  max_seq_len: 5000
+  dropout: 0.1
+  pooling: "mean"  # mean, max, cls
+
+data:
+  data_path: "data/dataset.csv"
+  smiles_column: "SMILES"
+  target_column: "binding_affinity"
+  mode: "fingerprint"
+  batch_size: 32
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  shuffle: true
+  num_workers: 0
+
+training:
+  epochs: 100
+  device: "cuda"
+  save_dir: "checkpoints/transformer"
+  log_dir: "logs/transformer"
+  save_best: true
+  patience: 10
+  min_delta: 0.001
+
+optimizer:
+  type: "adamw"
+  lr: 0.0001
+  weight_decay: 1e-4
+
+scheduler:
+  type: "cosine"
+  T_max: 50
+
+loss:
+  type: "mse"
+
+evaluation:
+  metrics: ["rmse", "mae", "r2", "pearson_correlation"]
+  save_predictions: true
+  plot_results: true
+

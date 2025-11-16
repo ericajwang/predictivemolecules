@@ -1,0 +1,55 @@
+model:
+  type: "ensemble"
+  strategy: "weighted_average"  # weighted_average, stacking, voting
+  learnable_weights: true
+  base_models:
+    - type: "gnn"
+      hidden_dim: 128
+      num_layers: 3
+      conv_type: "GAT"
+    - type: "transformer"
+      d_model: 256
+      num_layers: 4
+    - type: "cnn"
+      hidden_dims: [512, 256, 128]
+
+data:
+  data_path: "data/dataset.csv"
+  smiles_column: "SMILES"
+  target_column: "binding_affinity"
+  mode: "both"
+  batch_size: 32
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  shuffle: true
+  num_workers: 0
+
+training:
+  epochs: 100
+  device: "cuda"
+  save_dir: "checkpoints/ensemble"
+  log_dir: "logs/ensemble"
+  save_best: true
+  patience: 15
+  min_delta: 0.001
+
+optimizer:
+  type: "adam"
+  lr: 0.0005
+  weight_decay: 1e-5
+
+scheduler:
+  type: "reduce_on_plateau"
+  mode: "min"
+  factor: 0.5
+  patience: 5
+
+loss:
+  type: "mse"
+
+evaluation:
+  metrics: ["rmse", "mae", "r2", "pearson_correlation"]
+  save_predictions: true
+  plot_results: true
+

@@ -1,0 +1,50 @@
+model:
+  type: "cnn"
+  input_dim: 2048
+  hidden_dims: [512, 256, 128]
+  kernel_sizes: [7, 5, 3]
+  dropout: 0.2
+  use_residual: true
+  pool_type: "adaptive"
+
+data:
+  data_path: "data/dataset.csv"
+  smiles_column: "SMILES"
+  target_column: "binding_affinity"
+  mode: "fingerprint"
+  batch_size: 64
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  shuffle: true
+  num_workers: 0
+
+training:
+  epochs: 100
+  device: "cuda"
+  save_dir: "checkpoints/cnn"
+  log_dir: "logs/cnn"
+  save_best: true
+  patience: 10
+  min_delta: 0.001
+
+optimizer:
+  type: "adam"
+  lr: 0.001
+  weight_decay: 1e-5
+
+scheduler:
+  type: "step"
+  step_size: 30
+  gamma: 0.1
+
+loss:
+  type: "combined"
+  loss_types: ["mse", "mae"]
+  weights: [0.7, 0.3]
+
+evaluation:
+  metrics: ["rmse", "mae", "r2", "pearson_correlation"]
+  save_predictions: true
+  plot_results: true
+
