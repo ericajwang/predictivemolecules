@@ -1,4 +1,4 @@
 A deep learning framework for predicting small molecule-protein binding affinities, on a dataset from Kaggle! Small molecule proteins are a complicated prediction task that many have attmepted to apply machine learning and deep learning techniques to. In this project, I implement several different neural network architectures (GNNs, Transformers, CNNs) from scratch using PyTorch. The codebase handles everything from molecular graph construction and fingerprint generation to model training and evaluation.
 
 The framework is designed to be flexible, easily switching between graph-based models that leverage molecular structure, transformer models that use attention mechanisms, or CNNs.
-Everything is configured through YAML files, and the training pipeline includes early stopping, checkpointing, and comprehensive metrics tracking. Ensemble methods also exist, allowing for combinations of models!
+Everything is configured through YAML files, and the training pipeline includes early stopping, checkpointing, and comprehensive metrics tracking. Ensemble methods also exist, allowing for combinations of models.
